@@ -4,7 +4,9 @@ const COLUMN = 3;
 //Method created arrays
 export const startNewGame = (): Array<Array<Array<number | null>>> => {
   //create empty board
-  const board = Array(ROW).fill(Array(COLUMN).fill(Array(SIZE)));
+  const board = Array.from({ length: ROW }, () =>
+    Array.from({ length: COLUMN }, () => new Array(SIZE).fill(null))
+  );
 
   //Fill board with random numbers
   initBoard(board);
@@ -17,9 +19,12 @@ const initBoard = (board: Array<Array<Array<number | null>>>): void => {
   //iterate rows and columns of matrix 3x3
   for (let row = 0; row < ROW; row++) {
     for (let col = 0; col < COLUMN; col++) {
-      //init array(9) with random numbers
-      const arrLeft = col > 0 ? board[row][col - 1] : [];
-      const arrTop = row > 0 ? board[row - 1][col] : [];
+      const arrLeft = new Array();
+      const arrTop = new Array();
+
+      for (let i = 0; i < col; i++) arrLeft.push(board[row][i]);
+      for (let i = 0; i < row; i++) arrTop.push(board[i][col]);
+
       board[row][col] = [];
       initArrayWithRandomNumbers(board[row][col], arrLeft, arrTop);
     }
@@ -28,8 +33,8 @@ const initBoard = (board: Array<Array<Array<number | null>>>): void => {
 
 export const initArrayWithRandomNumbers = (
   array: Array<number | null>,
-  arrLeft: Array<number | null> = [],
-  arrTop: Array<number | null> = [],
+  arrLeft: Array<Array<number | null>> = [],
+  arrTop: Array<Array<number | null>> = [],
 ): void => {
   //form set with numbers to exclude
   if (arrTop.length > 0 && arrLeft.length > 0) {
@@ -48,7 +53,7 @@ export const initArrayWithRandomNumbers = (
           ...lefRowExclude,
         ]);
         const allowed = sourceArray.filter((num) => !allExclude.has(num));
-        const num = allowed[allowed.length - 1]
+        const num = allowed[allowed.length - 1];
         array.push(num);
       }
     }
@@ -56,10 +61,12 @@ export const initArrayWithRandomNumbers = (
     const sourceArray = Array.from({ length: SIZE }, (_, i) => i + 1);
     for (let axelX = 0; axelX < SIZE; axelX += COLUMN) {
       for (let i = axelX; i < COLUMN + axelX; i++) {
-        const arrExclude = new Set([
-          ...array,
-          ...arrLeft.slice(axelX, axelX + COLUMN),
-        ]);
+        const arrExclude = new Set(array);
+        for (let i = 0; i < arrLeft.length; i++) {
+          const arrTemp = arrLeft[i];
+          const arrSliced = arrTemp.slice(axelX, axelX + COLUMN);
+          arrSliced.forEach((num) => arrExclude.add(num));
+        }
         const allowed = sourceArray.filter((num) => !arrExclude.has(num));
         const randomIndex = Math.floor(Math.random() * allowed.length);
         const randomNum = allowed[randomIndex];
@@ -73,12 +80,22 @@ export const initArrayWithRandomNumbers = (
      * 7,8,9]
      */
     const sourceArray = Array.from({ length: SIZE }, (_, i) => i + 1);
-    for (let axelX = 0, axelY = 0; axelX < SIZE; axelX += COLUMN, axelY++) {
-      for (let i = axelY; i < COLUMN + axelY; i++) {
-        const arrExclude = new Set([
-          ...array,
-          ...[arrTop[axelY], arrTop[axelY + 3], arrTop[axelY + 6]],
-        ]);
+    for (let axelX = 0; axelX < SIZE; axelX += COLUMN) {
+      for (let i = axelX, axelY = 0; i < COLUMN + axelX; i++, axelY++) {
+        // const arrExclude = new Set([
+        //   ...array,
+        //   ...[arrTop[axelY], arrTop[axelY + 3], arrTop[axelY + 6]],
+        // ]);
+        const arrExclude = new Set(array);
+        for (let i = 0; i < arrTop.length; i++) {
+          const arrTemp = arrTop[i];
+          const arrSliced = [
+            arrTemp[axelY],
+            arrTemp[axelY + 3],
+            arrTemp[axelY + 6],
+          ];
+          arrSliced.forEach((num) => arrExclude.add(num));
+        }
         const allowed = sourceArray.filter((num) => !arrExclude.has(num));
         const randomIndex = Math.floor(Math.random() * allowed.length);
         const randomNum = allowed[randomIndex];
