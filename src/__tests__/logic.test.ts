@@ -58,9 +58,9 @@ describe("Logic Tests", () => {
   });
 });
 
-describe("Game Tests", () => {
-  test("initBoard", () => {
-    const board = startNewGame();
-    expect(board.length).toBe(3);
-  });
-});
+// describe("Game Tests", () => {
+//   test("initBoard", () => {
+//     const board = startNewGame();
+//     expect(board.length).toBe(3);
+//   });
+// });

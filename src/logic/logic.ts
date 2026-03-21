@@ -48,8 +48,8 @@ export const initArrayWithRandomNumbers = (
           ...lefRowExclude,
         ]);
         const allowed = sourceArray.filter((num) => !allExclude.has(num));
-
-        array.push(allowed[allowed.length - 1]);
+        const num = allowed[allowed.length - 1]
+        array.push(num);
       }
     }
   } else if (arrTop.length === 0 && arrLeft.length > 0) {
@@ -61,14 +61,9 @@ export const initArrayWithRandomNumbers = (
           ...arrLeft.slice(axelX, axelX + COLUMN),
         ]);
         const allowed = sourceArray.filter((num) => !arrExclude.has(num));
-        while (true) {
-          const randomIndex = Math.floor(Math.random() * allowed.length);
-          const randomNum = allowed[randomIndex];
-          if (!array.includes(randomNum)) {
-            array.push(randomNum);
-            break;
-          }
-        }
+        const randomIndex = Math.floor(Math.random() * allowed.length);
+        const randomNum = allowed[randomIndex];
+        array.push(randomNum);
       }
     }
   } else if (arrTop.length > 0 && arrLeft.length === 0) {
@@ -85,14 +80,9 @@ export const initArrayWithRandomNumbers = (
           ...[arrTop[axelY], arrTop[axelY + 3], arrTop[axelY + 6]],
         ]);
         const allowed = sourceArray.filter((num) => !arrExclude.has(num));
-        while (true) {
-          const randomIndex = Math.floor(Math.random() * allowed.length);
-          const randomNum = allowed[randomIndex];
-          if (!array.includes(randomNum)) {
-            array.push(randomNum);
-            break;
-          }
-        }
+        const randomIndex = Math.floor(Math.random() * allowed.length);
+        const randomNum = allowed[randomIndex];
+        array.push(randomNum);
       }
     }
   } else {
@@ -101,14 +91,9 @@ export const initArrayWithRandomNumbers = (
     for (let i = 0; i < SIZE; i++) {
       const allExclude = new Set([...array]);
       const allowed = sourceArray.filter((num) => !allExclude.has(num));
-      while (true) {
-        const randomIndex = Math.floor(Math.random() * allowed.length);
-        const randomNum = allowed[randomIndex];
-        if (!array.includes(randomNum)) {
-          array.push(randomNum);
-          break;
-        }
-      }
+      const randomIndex = Math.floor(Math.random() * allowed.length);
+      const randomNum = allowed[randomIndex];
+      array.push(randomNum);
     }
   }
 };
