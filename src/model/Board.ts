@@ -1,7 +1,9 @@
-class Board {
+export type TBoard = Array<Array<number | null>>;
+
+export class Board {
     // Singleton
   private static instance: Board;
-  private board : Array<Array<number | null>> = []
+  private board : TBoard = []
 
   constructor() {
     if (!Board.instance) Board.instance = this;
