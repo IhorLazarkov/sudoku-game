@@ -1,24 +1,24 @@
-const SIZE = 9;
+export const SIZE = 9;
 //Method created arrays
-export const startNewGame = (): Array<Array<number | null>> => {
+export const initBoard = (): Array<Array<number | null>> => {
   const sourceArray = Array.from({ length: SIZE }, (_, i) => i + 1);
 
   const sortedSourceArray = sourceArray.sort(() => Math.random() - 0.5);
 
   const shifts = [0, 3, 6, 1, 4, 7, 2, 5, 8];
 
-  const result = shifts.map((shift) => {
+  const board = shifts.map((shift) => {
     return [
       ...sortedSourceArray.slice(shift),
       ...sortedSourceArray.slice(0, shift),
     ];
   });
 
-  return result;
+  return board;
 };
 
 //Create validation method
-export const validate = (
+export const isAttemptValid = (
   board: Array<Array<number | null>>,
   row: number,
   col: number,

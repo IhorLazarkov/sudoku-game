@@ -1,11 +1,11 @@
-import {startNewGame} from "../logic/logic";
+import { initBoard, SIZE } from "../service/Game";
 
 describe("Game Tests", () => {
   test("initBoard", () => {
-    const board = startNewGame();
-    const p = (v : number | null) => v !== null &&v > 0 && v < 10;
-    expect(board.length).toBe(9);
-    expect(board.every(row => row.length === 9)).toBe(true);
-    expect(board.every(row => row.every(p))).toBe(true);
+    const board = initBoard();
+    const p = (v: number | null) => v !== null && v > 0 && v < 10;
+    expect(board.length).toBe(SIZE);
+    expect(board.every((row) => row.length === SIZE)).toBe(true);
+    expect(board.every((row) => row.every(p))).toBe(true);
   });
 });
