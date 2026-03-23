@@ -1,7 +1,13 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
 import App from "../ui/App";
 import "@testing-library/jest-dom";
 import { SIZE } from "../service/Game";
+import { reducerGameAction } from "../store/reducerGameAction";
+
+const mockedGameAction = reducerGameAction as jest.Mock;
+jest.mock("../store/reducerGameAction", () => ({
+    reducerGameAction: jest.fn()
+}))
 
 describe("App Component UI Tests", () => {
 
@@ -30,7 +36,7 @@ describe("App Component UI Tests", () => {
     });
 
     test('when user selects cell the keyboard below become enabled', async () => {
-        const {container} = await act(() => {
+        const { container } = await act(() => {
             return render(<App />);
         });
 
@@ -46,5 +52,27 @@ describe("App Component UI Tests", () => {
             render(<App />)
         })
         expect(buttons.every(button => !button.disabled)).toBe(true)
+    })
+
+    test("when user win", async () => {
+
+        mockedGameAction.mockReturnValue(true)
+
+        const { container } = await act(() => {
+            return render(<App />);
+        })
+
+        await act(async () => {
+            container.querySelector('span')?.click()
+            render(<App />)
+        })
+
+        await act(async () => {
+            container.querySelector('button')?.click()
+            render(<App />)
+        })
+
+        expect(screen.getByText("WIN")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Start New Game" })).toBeInTheDocument();
     })
 });

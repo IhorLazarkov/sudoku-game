@@ -8,7 +8,7 @@ export type TPayload = TBoard & {
   attempt: number;
 };
 
-export const reducerGameAction = async (
+export const reducerBoardAction = async (
   state: TBoard,
   action: { type: TReducerActions; payload?: TPayload },
 ): Promise<TBoard> => {
