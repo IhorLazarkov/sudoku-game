@@ -16,6 +16,34 @@ function App() {
     })
   }, [])
 
+  function onSelectCell(i: number) {
+    startTransition(() => {
+      dispatchBoardState({
+        type: "VALIDATE_ATTEMPT",
+        payload: { row: currentCell.row, col: currentCell.col, attempt: i }
+      })
+      setCurrentCell({
+        row: currentCell.row,
+        col: currentCell.col,
+        attempt: i,
+        state: boardState[currentCell.row][currentCell.col].state
+      })
+    })
+    startTransition(() => {
+      dispatchGameState({
+        type: "VALIDATE",
+        payload: boardState
+      })
+    })
+  }
+
+  function submitAttempt() {
+    startTransition(() => {
+      dispatchBoardState({ type: "RESET" })
+      dispatchGameState({ type: "RESET" })
+    })
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
       <main className="bg-white p-6 rounded-2xl border-4 border-blue-100 sm:my-2">
@@ -61,26 +89,7 @@ function App() {
             bg-blue-50 text-blue-900 font-bold rounded-md 
             hover:bg-blue-200 transition-colors cursor-pointer border border-blue-200 
             disabled:opacity-20 disabled:cursor-not-allowed"
-              onClick={() => {
-                startTransition(() => {
-                  dispatchBoardState({
-                    type: "VALIDATE_ATTEMPT",
-                    payload: { row: currentCell.row, col: currentCell.col, attempt: i }
-                  })
-                  setCurrentCell({
-                    row: currentCell.row,
-                    col: currentCell.col,
-                    attempt: i,
-                    state: boardState[currentCell.row][currentCell.col].state
-                  })
-                })
-                startTransition(() => {
-                  dispatchGameState({
-                    type: "VALIDATE",
-                    payload: boardState
-                  })
-                })
-              }}
+              onClick={() => onSelectCell(i)}
             >{i}</button>
           })}
         </div>
@@ -91,12 +100,7 @@ function App() {
           p-2 bg-blue-50 text-blue-900 
           font-bold rounded-md border border-blue-200 
           hover:bg-blue-200 transition-colors cursor-pointer"
-            onClick={() => {
-              startTransition(() => {
-                dispatchBoardState({ type: "RESET" })
-                dispatchGameState({ type: "RESET" })
-              })
-            }}>Start New Game</button>
+            onClick={submitAttempt}>Start New Game</button>
         </div>
       }
     </div>
