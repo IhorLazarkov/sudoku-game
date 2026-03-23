@@ -1,4 +1,4 @@
-import { act, render, renderHook, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import App from "../ui/App";
 import "@testing-library/jest-dom";
 import { SIZE } from "../service/Game";
