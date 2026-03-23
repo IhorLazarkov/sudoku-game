@@ -45,8 +45,8 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
-      <main className="bg-white p-6 rounded-2xl border-4 border-blue-100 sm:my-2">
+    <div className="flex flex-col items-center justify-evenly min-h-screen bg-gray-50">
+      <main className="bg-white p-6 rounded-2xl border-4 border-blue-100">
         <div className="grid gap-1">
           {Object.values(boardState).map((row, i) => {
             return (
@@ -85,8 +85,8 @@ function App() {
               disabled={currentCell.row === -1}
               key={`attempt-${i}`}
               className="w-[3.5rem] aspect-[1] 
-            flex items-center justify-center 
-            bg-blue-50 text-blue-900 font-bold rounded-md 
+            grid items-center
+            bg-blue-50 text-blue-900 font-bold rounded-md text-2xl
             hover:bg-blue-200 transition-colors cursor-pointer border border-blue-200 
             disabled:opacity-20 disabled:cursor-not-allowed"
               onClick={() => onSelectCell(i)}
