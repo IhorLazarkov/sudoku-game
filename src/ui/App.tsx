@@ -1,5 +1,5 @@
 import { SIZE } from "../service/Game"
-import { reducerAction } from "../repository/reducerAction";
+import { reducerAction } from "../store/reducerAction";
 import { useActionState, useEffect, startTransition } from "react"
 
 function App() {
