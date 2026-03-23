@@ -59,7 +59,10 @@ function App() {
             hover:bg-blue-200 transition-colors cursor-pointer border border-blue-200 
             disabled:opacity-20 disabled:cursor-not-allowed"
             onClick={() => {
-              dispatch({ type: "VALIDATE_ATTEMPT", payload: { row: currentCell.row, col: currentCell.col, attempt: i } })
+              dispatch({
+                type: "VALIDATE_ATTEMPT",
+                payload: { row: currentCell.row, col: currentCell.col, attempt: i }
+              })
               startTransition(() => {
                 setCurrentCell({
                   row: currentCell.row,
