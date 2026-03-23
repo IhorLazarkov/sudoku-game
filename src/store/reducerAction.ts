@@ -1,7 +1,6 @@
-import type { TBoard } from "../model/Board";
+import { Board, type TBoard } from "../model/Board";
 import { initBoard } from "../service/Game";
 
-export type TCellState = "SUCCESS" | "FAILED" | "EMPTY";
 export type TReducerActions = "RESET" | "VALIDATE_ATTEMPT" | "VALIDATE_ROW";
 export type TPayload = TBoard & {
   row: number;
@@ -16,8 +15,10 @@ export const reducerAction = async (
   switch (action.type) {
     case "RESET":
       const newBoard = initBoard();
+      const board = new Board();
+      board.setBoard = newBoard;
       return new Promise((resolve) => {
-        return resolve(newBoard);
+        return resolve(board.getBoard);
       });
 
     case "VALIDATE_ATTEMPT":

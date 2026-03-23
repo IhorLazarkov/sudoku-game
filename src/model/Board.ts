@@ -1,9 +1,13 @@
-export type TBoard = Array<Array<number | null>>;
+export type TBoard = Record<
+  number,
+  Array<{ value: number | null; state: TCellState }>
+>;
+export type TCellState = "SUCCESS" | "FAILED" | "EMPTY";
 
 export class Board {
-    // Singleton
+  // Singleton
   private static instance: Board;
-  private board : TBoard = []
+  private board: TBoard = {};
 
   constructor() {
     if (!Board.instance) Board.instance = this;
@@ -15,6 +19,10 @@ export class Board {
   }
 
   set setBoard(board: Array<Array<number | null>>) {
-    this.board = board;
+    board.forEach((row, rowIndex) => {
+      this.board[rowIndex] = row.map((cell, cellIndex) => {
+        return { value: cell, state: "EMPTY" };
+      });
+    });
   }
 }
