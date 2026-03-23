@@ -1,6 +1,7 @@
 import { act, render, screen } from "@testing-library/react";
 import App from "../ui/App";
 import "@testing-library/jest-dom";
+import { SIZE } from "../service/Game";
 
 describe("App Component UI Tests", () => {
 
@@ -27,5 +28,22 @@ describe("App Component UI Tests", () => {
             expect(button).toBeInTheDocument();
         }
     });
+
+    test('when user selects cell the keyboard below become enabled', async () => {
+        const {container} = await act(() => {
+            return render(<App />);
+        });
+
+        const buttons = screen.getAllByRole("button") as HTMLButtonElement[]
+        expect(buttons.length).toBe(SIZE)
+        expect(buttons.every(button => button.disabled)).toBe(true)
+
+        await act(() => {
+            const cells = container.querySelectorAll("span")
+            cells[0].click()
+            render(<App />)
+        })
+        expect(buttons.every(button => !button.disabled)).toBe(true)
+    })
 
 });
