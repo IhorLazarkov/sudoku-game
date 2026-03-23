@@ -1,4 +1,4 @@
-export type TCellState = "SUCCESS" | "FAILED" | "EMPTY";
+export type TCellState = "SUCCESS" | "FAILED" | "EMPTY" | "SHOW";
 export type TCell = { value: number | null; state: TCellState };
 export type TBoard = Record<number, Array<TCell>>;
 
@@ -19,7 +19,8 @@ export class Board {
   set setBoard(board: Array<Array<number | null>>) {
     board.forEach((row, rowIndex) => {
       this.board[rowIndex] = row.map((cell, cellIndex) => {
-        return { value: cell, state: "EMPTY" };
+        const state = Math.random() > 0.5 ? "SHOW" : "EMPTY";
+        return { value: cell, state };
       });
     });
   }
