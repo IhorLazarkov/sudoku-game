@@ -1,8 +1,7 @@
-import { Board } from "../model/Board";
+import { Board, type TCell } from "../model/Board";
 import { initBoard, SIZE } from "../service/Game";
-import { type TCellState } from "../model/Board";
 
-const notFalsy = ({value, state}:{ value: number | null; state: TCellState }) =>
+const notFalsy = ({ value, state }: TCell) =>
   value !== null && value > 0 && value < 10;
 
 describe("Game Tests", () => {

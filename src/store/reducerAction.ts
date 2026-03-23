@@ -8,7 +8,7 @@ export type TPayload = TBoard & {
   attempt: number;
 };
 
-export const reducerAction = async (
+export const reducerGameAction = async (
   state: TBoard,
   action: { type: TReducerActions; payload?: TPayload },
 ): Promise<TBoard> => {
@@ -22,7 +22,10 @@ export const reducerAction = async (
       });
 
     case "VALIDATE_ATTEMPT":
-      //   const { row, col, attempt } = action.payload!;
+      const { row, col, attempt } = action.payload!;
+      const cell = state[row][col];
+      if(cell.value === attempt) cell.state = "SUCCESS";
+      else cell.state = "FAILED";
       const newState = state;
       return newState;
 

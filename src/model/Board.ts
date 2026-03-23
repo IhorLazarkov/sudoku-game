@@ -1,8 +1,6 @@
-export type TBoard = Record<
-  number,
-  Array<{ value: number | null; state: TCellState }>
->;
 export type TCellState = "SUCCESS" | "FAILED" | "EMPTY";
+export type TCell = { value: number | null; state: TCellState };
+export type TBoard = Record<number, Array<TCell>>;
 
 export class Board {
   // Singleton
