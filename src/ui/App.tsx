@@ -1,16 +1,21 @@
-import { useActionState } from "react"
 import { SIZE } from "../service/Game"
 import { reducerAction } from "../repository/reducerAction";
-
+import { useActionState, useEffect, startTransition } from "react"
 
 function App() {
 
   const [state, dispatch, isPending] = useActionState(
     reducerAction,
     Array.from({ length: SIZE }, () => {
-      return Array.from({ length: SIZE }, (_, i) => i + 1)
+      return Array.from({ length: SIZE }, (_, i) => 0)
     }),
   )
+
+  useEffect(() => {
+    startTransition(() => {
+      dispatch({ type: "RESET" })
+    })
+  }, [])
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
@@ -24,11 +29,11 @@ function App() {
               <div key={`row-${i}`} className="flex gap-1">
                 {row.map((cell, j) => {
                   return (
-                    <span 
-                      key={`col-${j}`} 
+                    <span
+                      key={`col-${j}`}
                       className="w-10 h-10 flex items-center justify-center bg-blue-50 text-blue-900 font-bold rounded-md hover:bg-blue-200 transition-colors cursor-pointer border border-blue-200"
                     >
-                      {cell}
+                      {cell === 0 ? "" : cell}
                     </span>
                   )
                 })}
