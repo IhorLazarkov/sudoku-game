@@ -6,7 +6,7 @@ function App() {
 
   const initCurrentCell = { row: -1, col: -1, attempt: -1, state: "EMPTY" }
   const [currentCell, setCurrentCell] = useState(initCurrentCell)
-  const [state, dispatch, isPending] = useActionState(reducerGameAction, emptyBoard())
+  const [boardState, dispatch, isPending] = useActionState(reducerGameAction, emptyBoard())
 
   useEffect(() => {
     startTransition(() => {
@@ -18,7 +18,7 @@ function App() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
       <main className="bg-white p-6 rounded-2xl border-4 border-blue-100">
         <div className="grid gap-1">
-          {Object.values(state).map((row, i) => {
+          {Object.values(boardState).map((row, i) => {
             return (
               <div key={`row-${i}`} className="flex gap-1">
                 {row.map((cell, j) => {
@@ -68,7 +68,7 @@ function App() {
                   row: currentCell.row,
                   col: currentCell.col,
                   attempt: i,
-                  state: state[currentCell.row][currentCell.col].state
+                  state: boardState[currentCell.row][currentCell.col].state
                 })
               })
             }}

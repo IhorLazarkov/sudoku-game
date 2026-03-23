@@ -34,10 +34,12 @@ describe("App Component UI Tests", () => {
             return render(<App />);
         });
 
+        //check before disabled
         const buttons = screen.getAllByRole("button") as HTMLButtonElement[]
         expect(buttons.length).toBe(SIZE)
         expect(buttons.every(button => button.disabled)).toBe(true)
 
+        //check after enabled
         await act(() => {
             const cells = container.querySelectorAll("span")
             cells[0].click()
@@ -45,5 +47,4 @@ describe("App Component UI Tests", () => {
         })
         expect(buttons.every(button => !button.disabled)).toBe(true)
     })
-
 });
